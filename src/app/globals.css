@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Calm Ledger — design tokens (Tailwind v4 theme)
+   Light values in :root, dark values in .dark (theme toggle
+   sets .dark on <html>; both palettes flow through the same
+   custom properties, so no dark: variants are needed).
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+  --background: #fcf8fa;
+  --foreground: #1b1b1d;
+
+  /* Surfaces */
+  --color-surface: #fcf8fa;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f3f4;
+  --color-surface-container: #f0edef;
+  --color-surface-container-high: #eae7e9;
+  --color-surface-container-highest: #e4e2e3;
+
+  /* Content */
+  --color-on-surface: #1b1b1d;
+  --color-on-surface-variant: #45474c;
+  --color-outline: #76777d;
+  --color-outline-variant: #c6c6cd;
+
+  /* Actions */
+  --color-primary: #000000;
+  --color-on-primary: #ffffff;
+  --color-surface-tint: #565e71;
+  --color-secondary: #4c616c;
+  --color-secondary-container: #cfe6f2;
+  --color-on-secondary-container: #526772;
+
+  /* Status */
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-income: #16a34a;
+  --color-expense: #dc2626;
+
+  /* Savings accent (distinct from income green; used by the savings
+     account bucket) */
+  --color-savings: #047857;
+  --color-savings-container: #d1fae5;
+  --color-on-savings-container: #065f46;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0b0f19;
+  --foreground: #f3f4f6;
+
+  --color-surface: #0b0f19;
+  --color-surface-container-lowest: #111827;
+  --color-surface-container-low: #151c2c;
+  --color-surface-container: #1a2333;
+  --color-surface-container-high: #202a3d;
+  --color-surface-container-highest: #263145;
+
+  --color-on-surface: #f3f4f6;
+  --color-on-surface-variant: #9aa4b2;
+  --color-outline: #64748b;
+  --color-outline-variant: #223046;
+
+  --color-primary: #e5e9f0;
+  --color-on-primary: #0b0f19;
+  --color-surface-tint: #bfc6dc;
+  --color-secondary: #8fa3ad;
+  --color-secondary-container: #1c3a4a;
+  --color-on-secondary-container: #cfe6f2;
+
+  --color-error: #f87171;
+  --color-error-container: #7f1d1d;
+  --color-income: #4ade80;
+  --color-expense: #f87171;
+  --color-savings: #34d399;
+  --color-savings-container: #12382e;
+  --color-on-savings-container: #a7f3d0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface: var(--color-surface);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-surface-container-highest: var(--color-surface-container-highest);
+
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
+
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-surface-tint: var(--color-surface-tint);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+  --color-on-secondary-container: var(--color-on-secondary-container);
+
+  --color-error: var(--color-error);
+  --color-error-container: var(--color-error-container);
+  --color-income: var(--color-income);
+  --color-expense: var(--color-expense);
+  --color-savings: var(--color-savings);
+  --color-savings-container: var(--color-savings-container);
+  --color-on-savings-container: var(--color-on-savings-container);
+
+  /* Calm Ledger radius scale: soft, architectural (2/4/8px) */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+
+  /* Type scale */
+  --text-display-lg: 2.25rem;
+  --text-display-lg--line-height: 2.75rem;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+  --text-headline-md: 1.5rem;
+  --text-headline-md--line-height: 2rem;
+  --text-headline-md--font-weight: 600;
+  --text-headline-sm: 1.25rem;
+  --text-headline-sm--line-height: 1.75rem;
+  --text-headline-sm--font-weight: 600;
+  --text-label-caps: 0.75rem;
+  --text-label-caps--line-height: 1rem;
+  --text-label-caps--letter-spacing: 0.05em;
+  --text-label-caps--font-weight: 700;
+
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Native form controls: drop OS chrome so bg/text/border come from the
+   app tokens (and flip with .dark). Selects get a token-colored chevron
+   back (single-var strokes can't be used in a data-URI, so one per mode).
+   Checkboxes/radios keep their native box so the tick is visible. */
+select,
+input:not([type="checkbox"]):not([type="radio"]),
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* Checkboxes/radios render with the app primary color in both modes. */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-primary);
+}
+select {
+  color-scheme: light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2345474c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.625rem center;
+  background-size: 1.15em 1.15em;
+}
+.dark select {
+  /* Force the native option popup to render with the dark scheme.
+     Without this, Chrome mixes the light popup background with the
+     select's inherited light text => white-on-white in dark mode. */
+  color-scheme: dark;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+}
+/* Belt-and-suspenders for engines that honor option styling. */
+select option,
+select optgroup {
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-container-lowest);
+}
+/* Give every select room for the chevron; beats Tailwind's px-* utilities
+   while keeping their left padding. */
+select[class] {
+  padding-right: 2rem;
+}
+
+/* All monetary values align on tabular figures */
+.tabular-nums,
+[data-number] {
+  font-variant-numeric: tabular-nums;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
